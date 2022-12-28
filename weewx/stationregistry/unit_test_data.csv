@@ -1,0 +1,6 @@
+unittest_case_number|station_url|latitude|longitude|station_type|station_model|weewx_info|python_info|platform_info|description
+1|https://largoweather.com|26.555|-82.222|Acurite|5-in-1|2.6.0a5|3.10.2|Windows11|West Largo Weather, Florida
+2|https://192.168.10.1/weewx|26.555|-82.222|Acurite|5-in-1|2.6.0a5|3.10.2|Windows11|West Largo Weather, Florida
+3|http://weewx.com|26.555|-82.222|Acurite|5-in-1|2.6.0a5|3.10.2|Windows11|West Largo Weather, Florida
+4|http://cnn.com|26.555|-82.222|Acurite|5-in-1|2.6.0a5|3.10.2|Windows11|West Largo Weather, Florida
+5|https://largoweather.com|26.3|-82.222|Acurite|5-in-1|4.8.0|3.10.2|Windows11|West Largo Weather, Florida

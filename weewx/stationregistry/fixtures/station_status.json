@@ -1,0 +1,26 @@
+[
+    {
+        "model": "stationregistry.stationstatus",
+        "pk": 1,
+        "fields": {
+            "name": "Active",
+            "lst_updt_ts": "2022-11-28T20:21:46.052Z"
+        }
+    },
+    {
+        "model": "stationregistry.stationstatus",
+        "pk": 2,
+        "fields": {
+            "name": "Inactive (Stale) Status",
+            "lst_updt_ts": "2022-11-28T20:21:46.050Z"
+        }
+    },
+    {
+        "model": "stationregistry.stationstatus",
+        "pk": 3,
+        "fields": {
+            "name": "unknown status",
+            "lst_updt_ts": "2022-11-28T20:21:46.043Z"
+        }
+    }
+]

@@ -1,0 +1,50 @@
+[
+    {
+        "model": "regstats.metrictypes",
+        "pk": 1,
+        "fields": {
+            "name": "station_status",
+            "lst_updt_ts": "2022-12-19T20:21:46.052Z"
+        }
+    },
+    {
+        "model": "regstats.metrictypes",
+        "pk": 2,
+        "fields": {
+            "name": "station_type",
+            "lst_updt_ts": "2022-12-19T20:21:46.050Z"
+        }
+    },
+    {
+        "model": "regstats.metrictypes",
+        "pk": 3,
+        "fields": {
+            "name": "station_model",
+            "lst_updt_ts": "2022-12-19T20:21:46.043Z"
+        }
+    },
+    {
+        "model": "regstats.metrictypes",
+        "pk": 4,
+        "fields": {
+            "name": "weewx_info",
+            "lst_updt_ts": "2022-12-19T20:21:46.043Z"
+        }
+    },
+    {
+        "model": "regstats.metrictypes",
+        "pk": 5,
+        "fields": {
+            "name": "python_info",
+            "lst_updt_ts": "2022-12-19T20:21:46.043Z"
+        }
+    },
+    {
+        "model": "regstats.metrictypes",
+        "pk": 6,
+        "fields": {
+            "name": "platform_info",
+            "lst_updt_ts": "2022-12-19T20:21:46.043Z"
+        }
+    }
+]

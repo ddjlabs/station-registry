@@ -1,0 +1,56 @@
+[
+    {
+        "model": "stationregistry.urlblacklist",
+        "pk": 1,
+        "fields": {
+            "url_name": "weewx.com",
+            "url_reason": "This is the products main page",
+            "lst_updt_ts": "2022-11-28T20:49:25.427Z"
+        }
+    },
+    {
+        "model": "stationregistry.urlblacklist",
+        "pk": 2,
+        "fields": {
+            "url_name": "example.com",
+            "url_reason": "fake domain",
+            "lst_updt_ts": "2022-11-28T20:49:55.345Z"
+        }
+    },
+    {
+        "model": "stationregistry.urlblacklist",
+        "pk": 3,
+        "fields": {
+            "url_name": "www.wrh.noaa.gov",
+            "url_reason": "links to NOAA Weather Site. Not real",
+            "lst_updt_ts": "2022-11-28T20:50:41.036Z"
+        }
+    },
+    {
+        "model": "stationregistry.urlblacklist",
+        "pk": 3,
+        "fields": {
+            "url_name": "google.com",
+            "url_reason": "Common websites that will not be hosting weewx weather stations",
+            "lst_updt_ts": "2022-11-28T20:50:41.036Z"
+        }
+    },
+    {
+        "model": "stationregistry.urlblacklist",
+        "pk": 3,
+        "fields": {
+            "url_name": "twitter.com",
+            "url_reason": "Common websites that will not be hosting weewx weather stations",
+            "lst_updt_ts": "2022-11-28T20:50:41.036Z"
+        }
+    },
+    {
+        "model": "stationregistry.urlblacklist",
+        "pk": 3,
+        "fields": {
+            "url_name": "cnn.com",
+            "url_reason": "Common websites that will not be hosting weewx weather stations",
+            "lst_updt_ts": "2022-11-28T20:50:41.036Z"
+        }
+    }
+]

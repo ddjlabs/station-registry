@@ -1,0 +1,65 @@
+[
+    {
+        "model": "regstats.metrics",
+        "pk": 1,
+        "fields": {
+            "metric_type_id": 1,
+            "name": "active",
+            "lst_updt_ts": "2022-12-19T20:21:46.052Z"
+        }
+    },
+    {
+        "model": "regstats.metrics",
+        "pk": 2,
+        "fields": {
+            "metric_type_id": 1,
+            "name": "Stale",
+            "lst_updt_ts": "2022-12-19T20:21:46.052Z"
+        }
+    },
+    {
+        "model": "regstats.metrics",
+        "pk": 3,
+        "fields": {
+            "metric_type_id": 2,
+            "name": "unknown",
+            "lst_updt_ts": "2022-12-19T20:21:46.052Z"
+        }
+    },
+    {
+        "model": "regstats.metrics",
+        "pk": 4,
+        "fields": {
+            "metric_type_id": 3,
+            "name": "unknown",
+            "lst_updt_ts": "2022-12-19T20:21:46.052Z"
+        }
+    },
+    {
+        "model": "regstats.metrics",
+        "pk": 5,
+        "fields": {
+            "metric_type_id": 4,
+            "name": "unknown",
+            "lst_updt_ts": "2022-12-19T20:21:46.052Z"
+        }
+    },
+    {
+        "model": "regstats.metrics",
+        "pk": 6,
+        "fields": {
+            "metric_type_id": 5,
+            "name": "unknown",
+            "lst_updt_ts": "2022-12-19T20:21:46.052Z"
+        }
+    },
+    {
+        "model": "regstats.metrics",
+        "pk": 7,
+        "fields": {
+            "metric_type_id": 6,
+            "name": "unknown",
+            "lst_updt_ts": "2022-12-19T20:21:46.052Z"
+        }
+    }
+]
