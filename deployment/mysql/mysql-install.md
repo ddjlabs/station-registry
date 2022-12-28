@@ -44,3 +44,22 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH auth_socket;
 7. Edit the /etc/mysql/mysql.conf.d/mysqld.cnf file to allow external users to login to the SQL Server
 
 8. Add user accounts and grant privileges.
+
+## MySQL Client Install
+
+1. Install the required libraries for django and Python to exist
+
+```
+sudo apt-get install python-is-python3 python3-dev build-essential libmysqlclient-dev
+```
+
+2. activate your virtual environment
+
+```
+source ./.venv/bin/activate
+```
+
+3. install mysqlclient via pip
+```
+pip install mysqlclient
+```
