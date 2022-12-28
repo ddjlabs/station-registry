@@ -41,4 +41,6 @@ mysql -u root -p
 ALTER USER 'root'@'localhost' IDENTIFIED WITH auth_socket;
 ```
 
+7. Edit the /etc/mysql/mysql.conf.d/mysqld.cnf file to allow external users to login to the SQL Server
 
+8. Add user accounts and grant privileges.
