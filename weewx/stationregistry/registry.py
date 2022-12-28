@@ -361,7 +361,7 @@ def process_station_entry(dict_station_request, client_ip_address : str):
                         o_station = o_rec[0]
 
                         # create a Stations Entry record
-                        o_entry = StationEntry.objects.create(stations_id=o_station.station_id,
+                        o_entry = StationEntry.objects.create(station_id=o_station.station_id,
                                                             station_url=s_station_url,
                                                             latitude=dec_lat,
                                                             longitude=dec_long,
@@ -425,7 +425,7 @@ def process_station_entry(dict_station_request, client_ip_address : str):
                         if o_station.station_id is not None:
 
                             # create a Stations Entry record
-                            o_entry = StationEntry.objects.create(stations_id=o_station.station_id,
+                            o_entry = StationEntry.objects.create(station_id=o_station.station_id,
                                                                 station_url=s_station_url,
                                                                 latitude=dec_lat,
                                                                 longitude=dec_long,

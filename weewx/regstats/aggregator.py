@@ -12,13 +12,26 @@ logger = logging.getLogger(__name__)
 def clear_metric_stats(d_begindate: date, d_enddate: date, metric_type_id : int):
     try:
         s_sql : str = """
-                        delete from regstats_stationstats 
-                            where stat_id in (select rs.stat_id 
-                                            from regstats_stationstats rs 
-                                            inner join regstats_metrics rm on rs.metric_id = rm.metric_id 
-                                            where rm.metric_type_id = {2} 
-                                            and rs.report_dt between date('{0}') and date('{1}'))
+                        delete regstats_stationstats
+                        from regstats_stationstats
+                        inner join regstats_metrics on regstats_stationstats.metric_id = regstats_metrics.metric_id
+                        where regstats_metrics.metric_type_id = {2} 
+                        and regstats_stationstats.report_dt between date('{0}') and date('{1}')
                         """.format(d_begindate.strftime('%Y-%m-%d'),d_enddate.strftime('%Y-%m-%d'), metric_type_id)
+        with connection.cursor() as cursor:
+            cursor.execute(s_sql)
+
+    except Exception as err:
+        logger.error(err)
+        raise err
+
+
+def clear_geo_stats(d_begindate: date, d_enddate: date):
+    try:
+        s_sql : str = """
+                        delete from regstats_geostats 
+                        where report_dt between date('{0}') and date('{1}')
+                        """.format(d_begindate.strftime('%Y-%m-%d'),d_enddate.strftime('%Y-%m-%d'))
         with connection.cursor() as cursor:
             cursor.execute(s_sql)
 
@@ -52,12 +65,12 @@ def aggregate_stats(d_begindate : date, d_enddate: date):
                                         WHEN date(a.last_record) >= DATE_SUB(date('{0}'), INTERVAL {1} DAY) THEN 1 -- active
                                         ELSE 2 -- stale
                                     END AS STATION_STATUS,	
-                                    count(*) as metric_count
-                                from( select distinct stations_id, MAX(entry_dt) as LAST_RECORD
+                                    count(a.station_id) as metric_count
+                                from( select distinct station_id, MAX(entry_dt) as LAST_RECORD
                                     from stationregistry_stationentry ss
                                     where date(entry_dt) <= date('{0}')
                                     and date(entry_dt) >= DATE_SUB(date('{0}'), INTERVAL {2} DAY)   
-                                    group by stations_id) a
+                                    group by station_id) a
                                 group by station_status)
                                 """.format(d_begindate.strftime('%Y-%m-%d'),i_stale_limit, i_purge_limit)
                 #Clear intersections before loading
@@ -78,15 +91,15 @@ def aggregate_stats(d_begindate : date, d_enddate: date):
                                         WHEN date(a.last_record) >= DATE_SUB(date('{0}'), INTERVAL {1} DAY) THEN 1 -- active
                                         ELSE 2 -- stale
                                     END AS STATION_STATUS,	
-                                    count(*) as metric_count
-                                from( select distinct stations_id, station_type, mm.metric_id, MAX(entry_dt) as LAST_RECORD
+                                    count(a.station_id) as metric_count
+                                from( select distinct station_id, station_type, mm.metric_id, MAX(entry_dt) as LAST_RECORD
                                     from stationregistry_stationentry ss
                                     inner join regstats_metricmappings mm on mm.source_val = ss.station_type and mm.metric_type_id = 2
                                     where date(entry_dt) <= date('{0}')
                                     and date(entry_dt) >= DATE_SUB(date('{0}'), INTERVAL {2} DAY)   
-                                    group by stations_id) a
-                                group by a.metric_id
-                                order by a.station_type asc)
+                                    group by station_id, station_type, mm.metric_id) a
+                                group by a.metric_id, a.last_record, rpt_date, a.station_type
+                                order by a.station_type, a.last_record, rpt_date asc)
                                 """.format(d_begindate.strftime('%Y-%m-%d'),i_stale_limit, i_purge_limit)
                 
                 #Clear intersections before loading
@@ -107,15 +120,14 @@ def aggregate_stats(d_begindate : date, d_enddate: date):
                                         WHEN date(a.last_record) >= DATE_SUB(date('{0}'), INTERVAL {1} DAY) THEN 1 -- active
                                         ELSE 2 -- stale
                                     END AS STATION_STATUS,	
-                                    count(*) as metric_count
-                                from( select distinct stations_id, station_model, mm.metric_id, MAX(entry_dt) as LAST_RECORD
+                                    count(a.station_id) as metric_count
+                                from( select distinct station_id, station_model, mm.metric_id, MAX(entry_dt) as LAST_RECORD
                                     from stationregistry_stationentry ss
                                     inner join regstats_metricmappings mm on mm.source_val = ss.station_model and mm.metric_type_id = 3
                                     where date(entry_dt) <= date('{0}')	  
                                     and date(entry_dt) >= DATE_SUB(date('{0}'), INTERVAL {2} DAY)  
-                                    group by stations_id) a
-                                group by a.metric_id
-                                order by a.station_model asc)
+                                    group by station_id, station_model, mm.metric_id) a
+                                group by a.metric_id, rpt_date, station_status)
                                 """.format(d_begindate.strftime('%Y-%m-%d'),i_stale_limit, i_purge_limit)
                 
                 #Clear intersections before loading
@@ -136,15 +148,14 @@ def aggregate_stats(d_begindate : date, d_enddate: date):
                                         WHEN date(a.last_record) >= DATE_SUB(date('{0}'), INTERVAL {1} DAY) THEN 1 -- active
                                         ELSE 2 -- stale
                                     END AS STATION_STATUS,	
-                                    count(*) as metric_count
-                                from( select distinct stations_id, weewx_info, mm.metric_id, MAX(entry_dt) as LAST_RECORD
+                                    count(a.station_id) as metric_count
+                                from( select distinct station_id, weewx_info, mm.metric_id, MAX(entry_dt) as LAST_RECORD
                                     from stationregistry_stationentry ss
                                     inner join regstats_metricmappings mm on mm.source_val = ss.weewx_info and mm.metric_type_id = 4
                                     where date(entry_dt) <= date('{0}')	  
                                     and date(entry_dt) >= DATE_SUB(date('{0}'), INTERVAL {2} DAY) 
-                                    group by stations_id) a
-                                group by a.metric_id
-                                order by a.weewx_info asc);
+                                    group by station_id, weewx_info, mm.metric_id) a
+                                group by a.metric_id, rpt_date, station_status)
                                 """.format(d_begindate.strftime('%Y-%m-%d'),i_stale_limit, i_purge_limit)
                 
                 #Clear intersections before loading
@@ -165,15 +176,14 @@ def aggregate_stats(d_begindate : date, d_enddate: date):
                                         WHEN date(a.last_record) >= DATE_SUB(date('{0}'), INTERVAL {1} DAY) THEN 1 -- active
                                         ELSE 2 -- stale
                                     END AS STATION_STATUS,	
-                                    count(*) as metric_count
-                                from( select distinct stations_id, python_info, mm.metric_id, MAX(entry_dt) as LAST_RECORD
+                                    count(a.station_id) as metric_count
+                                from( select distinct station_id, python_info, mm.metric_id, MAX(entry_dt) as LAST_RECORD
                                     from stationregistry_stationentry ss
                                     inner join regstats_metricmappings mm on mm.source_val = ss.python_info and mm.metric_type_id = 5
                                     where date(entry_dt) <= date(@procdate)
                                     and date(entry_dt) >= DATE_SUB(date('{0}'), INTERVAL {2} DAY) 
-                                    group by stations_id) a
-                                group by a.metric_id
-                                order by a.python_info asc);
+                                    group by station_id, python_info, mm.metric_id) a
+                                group by a.metric_id, rpt_date, station_status)
                                 """.format(d_begindate.strftime('%Y-%m-%d'),i_stale_limit, i_purge_limit)
                 
                 #Clear intersections before loading
@@ -193,15 +203,14 @@ def aggregate_stats(d_begindate : date, d_enddate: date):
                                         WHEN date(a.last_record) >= DATE_SUB(date('{0}'), INTERVAL {1} DAY) THEN 1 -- active
                                         ELSE 2 -- stale
                                     END AS STATION_STATUS,	
-                                    count(*) as metric_count
-                                from( select distinct stations_id, platform_info, mm.metric_id, MAX(entry_dt) as LAST_RECORD
+                                    count(a.station_id) as metric_count
+                                from( select distinct station_id, platform_info, mm.metric_id, MAX(entry_dt) as LAST_RECORD
                                     from stationregistry_stationentry ss
                                     inner join regstats_metricmappings mm on mm.source_val = ss.platform_info and mm.metric_type_id = 6
                                     where date(entry_dt) <= date('{0}')
                                     and date(entry_dt) >= DATE_SUB(date('{0}'), INTERVAL {2} DAY) 
-                                    group by stations_id) a
-                                group by a.metric_id
-                                order by a.platform_info asc)
+                                    group by station_id, platform_info, mm.metric_id) a
+                                group by a.metric_id, rpt_date, station_status)
                                 """.format(d_begindate.strftime('%Y-%m-%d'), i_stale_limit, i_purge_limit)
                 
                 #Clear intersections before loading
@@ -248,11 +257,12 @@ def aggregate_geography(d_begindate : date, d_enddate: date):
                                         and rg.longitude = ss.longitude
                             where date(last_entry_dt) <= date('{0}')
                             and date(last_entry_dt) >= DATE_SUB(date('{0}'), INTERVAL {2} DAY)
-                            group by rg.geo_id)
+                            group by rg.geo_id, rpt_date, station_status)
                         """.format(d_begindate.strftime('%Y-%m-%d'), i_stale_limit, i_purge_limit)
-                #Clear intersections before loading
-                #clear_metric_stats(d_begindate,d_enddate, 1)
                 
+                #Clear intersections before loading
+                clear_geo_stats(d_begindate,d_enddate)
+
                 #Execute Station status load
                 cursor.execute(s_sql)
 

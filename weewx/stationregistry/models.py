@@ -54,7 +54,7 @@ class Stations(models.Model):
 class StationEntry(models.Model):
     entry_id = models.AutoField(primary_key=True)
     entry_dt = models.DateTimeField(default=timezone.now, db_index=True)
-    stations = models.ForeignKey(Stations, on_delete=models.DO_NOTHING, db_index=True,
+    station = models.ForeignKey(Stations, on_delete=models.DO_NOTHING, db_index=True,
                                  help_text="Station ID from the Stations Table.")
     station_url = models.URLField(null=False, db_index=True, max_length=250,
                                   help_text="url provided by the weather station client upon registration")
@@ -75,7 +75,7 @@ class StationEntry(models.Model):
 
 class StationExtensions(models.Model):
     station_extension_id = models.AutoField(primary_key=True)
-    stations = models.ForeignKey(Stations, on_delete=models.DO_NOTHING, db_index=True,
+    station = models.ForeignKey(Stations, on_delete=models.DO_NOTHING, db_index=True,
                                  help_text="Station ID from the Stations Table.")
     extension_name = models.CharField(max_length=150)
     extension_version = models.CharField(max_length=20)

@@ -56,7 +56,7 @@ def run():
                 logger.warning(f'Station URL: {r[0]} | Station Lat: {r[2]} | Station Long: {r[3]} | Last Seen : {r[10]}')
 
                 logger.warning('Posting record to new registry')
-                b_result, s_message = registry.process_station_entry(dict_station_request)
+                b_result, s_message = registry.process_station_entry(dict_station_request, dict_station_request["last_ip_address"])
 
                 logger.warning(f'result was {b_result} with message : {s_message}')
 

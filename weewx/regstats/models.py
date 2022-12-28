@@ -6,7 +6,7 @@ from django.utils.timezone import now
 class MetricTypes(models.Model):
     metric_type_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50, unique=True, db_index=True)
-    lst_updt_ts = models.DateTimeField(default=now, blank=True)
+    lst_updt_ts = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.metric_type_id}, {self.name}'
@@ -21,7 +21,7 @@ class Metrics(models.Model):
     attrib3 = models.CharField(max_length=100, db_index=True, null=True)
     attrib4 = models.CharField(max_length=100, db_index=True, null=True)
     attrib5 = models.CharField(max_length=100, db_index=True, null=True)
-    lst_updt_ts = models.DateTimeField(default=now, blank=True)
+    lst_updt_ts = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.name}, {self.metric_type}, {self.attrib1}, {self.attrib2}, {self.attrib3}, {self.attrib4}, {self.attrib5}'
@@ -32,7 +32,7 @@ class MetricMappings(models.Model):
     source_val = models.CharField(max_length=200, null=False, db_index=True, help_text="Station Entry Source Value")
     target_val = models.CharField(max_length=200, null=False, help_text="Target Metric Name")
     metric = models.ForeignKey(Metrics, on_delete=models.DO_NOTHING, db_index=True, help_text="Assigned Metric")
-    lst_updt_ts = models.DateTimeField(default=now, blank=True)
+    lst_updt_ts = models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
         return f'{self.metric_type}, {self.source_val}, {self.target_val}, {self.metric}, {self.lst_updt_ts}'
@@ -53,12 +53,30 @@ class StationStats(models.Model):
 
 # ===== WeeWX Geographical Demographics tables =====
 
+class Countries(models.Model):
+    country_id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=100, null=False, default=None, db_index=True)
+    country_code = models.CharField(max_length=2, null=False, db_index=True)
+    country_code2 = models.CharField(max_length=3, null=False)
+    iso_3166_code = models.CharField(max_length=15, null=False)
+    region = models.CharField(max_length=50, null=True)
+    sub_region = models.CharField(max_length=75, null=True)
+    intermediate_region = models.CharField(max_length=75, null=True)
+    region_code = models.IntegerField(null=True)
+    sub_region_code =models.IntegerField(null=True)
+    intermediate_region_code = models.IntegerField(null=True)
+    lst_updt_ts = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f'{self.name}, {self.country_code}, {self.region}, {self.sub_region}'
+
+
 class Geography(models.Model):
     geo_id = models.AutoField(primary_key=True)
     country_code = models.CharField(max_length=3, null=False, default=None, db_index=True)
     province = models.CharField(max_length=100,null=True,default='unknown', db_index=True)
     city = models.CharField(max_length=100, null=True, default='unknown', db_index=True)
-    lst_updt_ts = models.DateTimeField(default=now, blank=True)
+    lst_updt_ts = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.country_code}, {self.province}, {self.city}'
@@ -74,7 +92,7 @@ class GeographyMappings(models.Model):
     target_province = models.CharField(max_length=100, null=True, blank=True)
     target_city = models.CharField(max_length=100, null=True, blank=True)
     geo = models.ForeignKey(Geography, on_delete=models.DO_NOTHING, db_index=True)
-    lst_updt_ts = models.DateTimeField(default=now, blank=True)
+    lst_updt_ts = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.source_country_code}, {self.source_provincee}, {self.source_city}, {self.geo}'
