@@ -234,3 +234,9 @@ LOGGING = {
     # make all loggers use the console.
 #    for logger in LOGGING['loggers']:
 #        LOGGING['loggers'][logger]['handlers'] = ['console']
+
+
+# WeeWX Station Aggregation setting values
+
+STATION_STALE_LIMIT_DAYS = env("STATION_STALE_LIMIT_DAYS")
+STATION_PURGE_LIMIT_DAYS = env("STATION_PURGE_LIMIT_DAYS")

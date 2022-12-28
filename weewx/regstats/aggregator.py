@@ -1,5 +1,6 @@
 import logging
 import datetime
+from django.conf import settings
 from django.db import connection
 from datetime import date
 from .models import GeographyMappings, Geography, Metrics, MetricMappings
@@ -29,8 +30,8 @@ def clear_metric_stats(d_begindate: date, d_enddate: date, metric_type_id : int)
 def aggregate_stats(d_begindate : date, d_enddate: date):
     try:
 
-        i_stale_limit : int = 30
-        i_purge_limit : int = 90
+        i_stale_limit : int = settings.STATION_STALE_LIMIT_DAYS
+        i_purge_limit : int = settings.STATION_PURGE_LIMIT_DAYS
 
         d_delta = datetime.timedelta(days=1)
 
@@ -221,8 +222,8 @@ def aggregate_stats(d_begindate : date, d_enddate: date):
 
 def aggregate_geography(d_begindate : date, d_enddate: date):
     try:
-        i_stale_limit : int = 30
-        i_purge_limit : int = 90
+        i_stale_limit : int = settings.STATION_STALE_LIMIT_DAYS
+        i_purge_limit : int = settings.STATION_PURGE_LIMIT_DAYS
 
         d_delta = datetime.timedelta(days=1)
 
