@@ -145,6 +145,15 @@
 
 #### PyMemCache
 
+##### Installation Instructions
+
+* product documentation: https://www.memcached.org/
+* Use default port and local address: 127.0.0.1:11211
+
+```
+sudo apt install memcached
+```
+
 #### MySQL
 
 
