@@ -1,0 +1,22 @@
+# GUIDE: https://bartsimons.me/gunicorn-as-a-systemd-service/
+
+[Unit]
+Description = WeeWX Station Registry
+After = network.target
+
+[Service]
+PermissionsStartOnly = true
+PIDFile = /run/weewx-registry/registry.pid
+User = doug
+Group = doug
+WorkingDirectory = /home/doug/weewx-stationregistry/weewx
+ExecStartPre = /bin/mkdir /run/weewx-registry
+ExecStartPr = /bin/chown -R doug:doug /run/weewx-registry
+ExecStart = /home/doug/weewx-stationregistry/start_site.sh
+ExecReload = /bin/kill -s HUP $MAINPID
+ExecStop = /bin/kill -s TERM $MAINPID
+ExecStopPost = /bin/rm -rf /run/weewx-registry
+PrivateTmp = true
+
+[Install]
+WantedBy = multi-user.target
