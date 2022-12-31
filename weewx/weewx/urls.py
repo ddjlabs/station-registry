@@ -21,6 +21,6 @@ import stationregistry
 # I have nginx as a proxy to /register directory of weewx.com. need proxies for /stats and /stations subdirs
 
 urlpatterns = [
+    path('', include('stationregistry.urls')),
     path('admin/', admin.site.urls),
-    path('/', include('stationregistry.urls')),
 ]

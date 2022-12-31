@@ -4,6 +4,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'Stations', views.StationsViewSet)
+router.register(r'StationEntry', views.StationEntryViewSet)
 
 urlpatterns = [
     path('register.cgi', views.register_cgi, name='register_cgi'),

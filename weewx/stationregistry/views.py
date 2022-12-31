@@ -8,7 +8,7 @@ from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import AnonRateThrottle
 from . import registry
 from . models import Stations, StationEntry, StationExtensions
-from .serializers import StationsSerializer
+from .serializers import StationsSerializer, StationEntrySerializer
 
 
 class StationsViewSet(viewsets.ModelViewSet):
@@ -17,6 +17,14 @@ class StationsViewSet(viewsets.ModelViewSet):
     """
     queryset = Stations.objects.all()
     serializer_class = StationsSerializer
+
+
+class StationEntryViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows Stations to be viewed and edited
+    """
+    queryset = StationEntry.objects.all()
+    serializer_class = StationEntrySerializer
 
 
 @api_view(['GET'])
