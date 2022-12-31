@@ -95,7 +95,7 @@ class GeographyMappings(models.Model):
     lst_updt_ts = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f'{self.source_country_code}, {self.source_provincee}, {self.source_city}, {self.geo}'
+        return f'{self.source_country_code}, {self.source_province}, {self.source_city}, {self.geo}'
 
     def lookup_mapping(self, lat : int, long : int, country_code : str, province : str, city : str):
         try:
