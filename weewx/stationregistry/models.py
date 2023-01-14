@@ -32,6 +32,8 @@ class Stations(models.Model):
     weewx_info = models.CharField(max_length=64)
     python_info = models.CharField(max_length=64)
     platform_info = models.CharField(max_length=150)
+    config_path = models.CharField(max_length=255, null=True, default=None)
+    entry_path = models.CharField(max_length=255, null=True, default=None)
     last_ip_address = models.GenericIPAddressField(protocol='both', unpack_ipv4=True, null=True)
     register_dt = models.DateTimeField(default=timezone.now,
                                        help_text='Date when the station registry record was first created.')
@@ -67,23 +69,14 @@ class StationEntry(models.Model):
     weewx_info = models.CharField(max_length=64)
     python_info = models.CharField(max_length=64)
     platform_info = models.CharField(max_length=150)
+    config_path = models.CharField(max_length=255, null=True, default=None)
+    entry_path = models.CharField(max_length=255, null=True, default=None)    
     last_ip_address = models.GenericIPAddressField(protocol='both', unpack_ipv4=True, null=True)
 
     def __str__(self):
         return f'{self.stations}, {self.station_url}, {self.latitude}, {self.longitude}, {self.description}'
 
 
-class StationExtensions(models.Model):
-    station_extension_id = models.AutoField(primary_key=True)
-    station = models.ForeignKey(Stations, on_delete=models.DO_NOTHING, db_index=True,
-                                 help_text="Station ID from the Stations Table.")
-    extension_name = models.CharField(max_length=150)
-    extension_version = models.CharField(max_length=20)
-    extension_description = models.CharField(max_length=255)
-    entry_dt = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f'{self.stations}, {self.extension_name}, {self.extension_version}, {self.extension_description}, {self.entry_dt}'
 
 
 class URLBlackList(models.Model):

@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, throttle_classes
 from rest_framework.throttling import AnonRateThrottle
 from . import registry
-from . models import Stations, StationEntry, StationExtensions
+from . models import Stations, StationEntry
 from .serializers import StationsSerializer, StationEntrySerializer
 
 
